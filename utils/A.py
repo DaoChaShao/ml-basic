@@ -88,6 +88,10 @@ def softmax(x: ndarray) -> ndarray:
     :param x: value
     :return: softmax value
     """
+    # Method II: Subtract the max for numerical stability to prevent overflow
+    e_x = exp(x - np_max(x))
+    return e_x / np_sum(e_x, axis=-1)
+    # Method I: Direct computation (may cause overflow for large values)
     return exp(x) / np_sum(exp(x))
 
 
