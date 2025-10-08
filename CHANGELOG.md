@@ -1,10 +1,18 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-07)
+## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-09)
 
 ### Features
 
+- add 09_simple_net.py as a template for a simple neural network implementation ([49ca33d](https://github.com///commit/49ca33d864a6f12d653fae99808c46aac4e4f4e6))
+- add 08_tangent_02.py for enhanced derivative and tangent line visualization ([cf02467](https://github.com///commit/cf02467ef08e1f933260b49e9e78da8a2673ee7c))
+- add 08_tangent_01.py for derivative and tangent line visualization ([0ce5e21](https://github.com///commit/0ce5e211710c6d3282872af0e75b85e032828143))
+- add plotly dependency to requirements.txt for enhanced data visualization ([0e76ffd](https://github.com///commit/0e76ffdbfd8f3c79cb25730270f6f38ab492a70b))
+- refactor network.py to implement a minimal single-layer neural network with softmax activation and MSE loss ([d9e1d1d](https://github.com///commit/d9e1d1d6751ff9f1e742c4aa1c2e63326dfaa7ed))
+- add ndarray and zeros_like imports to J.py for enhanced functionality ([f48c413](https://github.com///commit/f48c4133e32ea5c3d839e814f23902e0ef0d5018))
+- add D.py with functions for numerical differentiation and gradient computation ([eed62fe](https://github.com///commit/eed62fe5e3453a72413e8d23fa525d6dd0dfa6b8))
+- improve softmax function in A.py for numerical stability ([c6392bf](https://github.com///commit/c6392bfc17c2be767a07c506ec10bc5b104b2298))
 - add network.py for a simple 3-layer neural network implementation ([0af85f3](https://github.com///commit/0af85f31f779793abd0785746e52d339f783de8e))
 - add J.py with functions for calculating mean squared error and cross-entropy error ([d3ea80a](https://github.com///commit/d3ea80a413a2d6db003cff5c8ac8538cdf6c66ec))
 - add helper.py with functions for generating random arrays and tensors ([0fcccfd](https://github.com///commit/0fcccfdb0483bf80b1e4de10fb7218962132bc9e))
@@ -22,6 +30,7 @@
 
 ### Chore
 
+- update CHANGELOG.md with recent feature additions and chore tasks ([3c77c97](https://github.com///commit/3c77c97bba98f32174f7fa59edd8677802d84969))
 - add .gitignore to exclude IDE files, virtual environments, and system files ([ce6c960](https://github.com///commit/ce6c9601b9edd5b896bda24d96429f096a57f297))
 - create CHANGELOG.md for version 0.1.0 ([1d95a3d](https://github.com///commit/1d95a3d97d181725c556bf43214acc06fb1d84e8))
 
@@ -29,4 +38,8 @@
 
 - add Chinese README with application overview, privacy notice, license, and changelog instructions ([ad9329b](https://github.com///commit/ad9329bf2d377ec22f2a92e64f451054a98013d6))
 - add README.md with project introduction, privacy notice, and changelog instructions ([87ceac5](https://github.com///commit/87ceac5a1bbb3a807476331507ee85ba6e0d52e9))
+
+### Code Refactoring
+
+- rename 07_network_simple.py to 07_network.py for consistency ([ceb72bf](https://github.com///commit/ceb72bf5b08a9707d00615817fd093eac811659c))
 
