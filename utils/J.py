@@ -6,7 +6,7 @@
 # @File     :   J.py
 # @Desc     :
 
-from numpy import sum as np_sum, clip, log, mean as np_mean
+from numpy import sum as np_sum, clip, log, mean as np_mean, ndarray, zeros_like
 
 
 def mean_squared_error(pred, target) -> float:
