@@ -14,27 +14,19 @@ def mean_squared_error(pred, target) -> float:
     return 0.5 * np_sum((pred - target) ** 2)
 
 
-def cross_entropy_error_binary(pred, target) -> float:
-    """ Calculate Binary Cross-Entropy Error between true and predicted values (with clipping for stability)
-    :param pred: predicted probabilities (values between 0 and 1)
-    :param target: true binary labels (0 or 1)
-    :return: binary cross-entropy error
+def cross_entropy_error(pred, target) -> float:
+    """ Calculate Cross-Entropy Error between true and predicted values (with clipping for stability)
+    :param pred: predicted probabilities for each class (values between 0 and 1,
+    :param target: true class labels (as class indices or one-hot encoded)
+    :return: cross-entropy error
     """
-    # Avoid log(0) by clipping predictions to a small range
-    eps = 1e-12
-    pred = clip(pred, eps, 1 - eps)
-    loss = - (target * log(pred) + (1 - target) * log(1 - pred))
-    return float(np_mean(loss))
-
-
-def cross_entropy_error_categorical(pred, target) -> float:
-    """ Calculate Multi-Class Cross-Entropy Error between true and predicted values (with clipping for stability)
-    :param pred: predicted probabilities for each class (values between 0 and 1, sum to 1)
-    :param target: true class labels (one-hot encoded)
-    :return: multi-class cross-entropy error
-    """
-    # Avoid log(0) by clipping predictions to a small range
-    eps = 1e-12
-    pred = clip(pred, eps, 1 - eps)
-    loss = - np_sum(target * log(pred), axis=1)
-    return float(np_mean(loss))
+    if pred.ndim == 1:
+        # Reshape 1D array to 2D array with one row
+        pred = pred.reshape(1, pred.size)
+        target = target.reshape(1, target.size)
+    # If target is one-hot encoded, convert to class indices
+    if target.size == pred.size:
+        target = target.argmax(axis=1)
+    # number of samples in the batch
+    n = pred.shape[0]
+    return -np_sum(log(pred[range(n), target] + 1e-7)) / n
