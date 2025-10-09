@@ -100,7 +100,7 @@ class MainWindow(QMainWindow):
                 series.append(dataframe.at[j, "x"], dataframe.at[j, "y"])
             self._chart.addSeries(series)
 
-        self._chart.setTitle(f"{self._line_titles[0]} & {self._line_titles[1]}")
+        self._chart.setTitle(" & ".join(self._line_titles))
         self._chart.createDefaultAxes()
 
         for button in self._buttons:
