@@ -5,12 +5,16 @@
 # @Version  :   Version 0.1.0
 # @File     :   network.py
 # @Desc     :
+
+
+from numpy import random as np_random, zeros, ndarray, sum as np_sum
 from typing import Union
 
-from numpy import random as np_random, zeros, ndarray
+from plotly.graph_objs.surface.contours import y
 
 from utils.A import sigmoid, softmax, identity
-from utils.J import cross_entropy_error_categorical
+from utils.D import numerical_gradient
+from utils.J import cross_entropy_error
 
 
 def network_init(
@@ -84,11 +88,13 @@ class SimpleNN(object):
     """ Minimal single-layer neural network for 2-feature, 3-class classification """
 
     def __init__(self, scale: float = 0.01):
-        self._W = np_random.randn(2, 3) * scale
+        # Initialize weights, small random values and units for 2 input features and 3 output classes
+        self.W = np_random.randn(2, 3) * scale
         self._y_pred: Union[ndarray | None] = None
+        self._cee = 0.0
 
     def forward(self, X: ndarray) -> ndarray:
-        Z = X.dot(self._W)
+        Z = X.dot(self.W)
         A = softmax(Z)
         # Activation result is the final prediction
         self._y_pred = A
@@ -101,4 +107,61 @@ class SimpleNN(object):
         :param y_pred: Predicted labels
         :return: MSE loss value
         """
-        return cross_entropy_error_categorical(y_true, y_pred)
+        return cross_entropy_error(y_true, y_pred)
+
+
+class TwoLayersNN(object):
+    """ Minimal two-layer neural network for 2-feature, 3-class classification """
+
+    def __init__(self, input_size: int, hidden_units: int, output_size: int, scale: float = 0.01):
+        self._parameters: dict = {
+            # Initialize weights and biases for the first layer
+            "W1": np_random.randn(input_size, hidden_units) * scale,
+            "b1": zeros((1, hidden_units)),
+            # Initialize weights and biases for the output layer
+            "W2": np_random.randn(hidden_units, output_size) * scale,
+            "b2": zeros((1, output_size))
+        }
+
+    def forward(self, X: ndarray) -> ndarray:
+        W1, b1 = self._parameters["W1"], self._parameters["b1"]
+        W2, b2 = self._parameters["W2"], self._parameters["b2"]
+
+        Z1 = X.dot(W1) + b1
+        A1 = sigmoid(Z1)
+        Z2 = A1.dot(W2) + b2
+
+        return softmax(Z2)
+
+    def loss(self, X: ndarray, t: ndarray) -> float:
+        """ Compute Mean Squared Error loss
+        :param X : Input data
+        :param t: True labels
+        :return: CEE loss value
+        """
+        y_pred = self.forward(X)
+        return cross_entropy_error(y_pred, t)
+
+    def grad_descent(self, X, t):
+        fn = lambda p: self.loss(X, t)
+        grads = {
+            "W1": numerical_gradient(fn, self._parameters["W1"]),
+            "b1": numerical_gradient(fn, self._parameters["b1"]),
+            "W2": numerical_gradient(fn, self._parameters["W2"]),
+            "b2": numerical_gradient(fn, self._parameters["b2"]),
+        }
+        return grads
+
+    def getter(self):
+        return self._parameters
+
+    @staticmethod
+    def accuracy(y_true: ndarray, y_pred: ndarray) -> float:
+        """ Compute accuracy of predictions
+        :param y_true: True labels
+        :param y_pred: Predicted labels
+        :return: Accuracy value
+        """
+        y_true_labels = y_true.argmax(axis=1)
+        y_pred_labels = y_pred.argmax(axis=1)
+        return np_sum(y_true_labels == y_pred_labels) / len(y_true_labels)
