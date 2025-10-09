@@ -5,6 +5,11 @@
 
 ### Features
 
+- implement two-layer neural network with forward pass, loss calculation, and gradient descent methods ([8ec322e](https://github.com///commit/8ec322e335ff89f28e63720a87fb1b0fc8c8713c))
+- add gradient descent optimization function and refactor gradient calculation methods ([b9201fc](https://github.com///commit/b9201fc93af97a5b25deee727a89f11476266cac))
+- implement MNIST dataset loader and training loop for two-layer neural network ([89d51bd](https://github.com///commit/89d51bdac98ff25fa07f2aa9a29bd3cfc83fc322))
+- add gradient descent visualization tool with interactive plotting ([f0100a8](https://github.com///commit/f0100a81762a4370c01bac4d3f60c0ba0d59640e))
+- implement main function for simple neural network demonstration ([2b0790e](https://github.com///commit/2b0790e4b763ab4782d3347aecd8a1a96c145cac))
 - add 09_simple_net.py as a template for a simple neural network implementation ([49ca33d](https://github.com///commit/49ca33d864a6f12d653fae99808c46aac4e4f4e6))
 - add 08_tangent_02.py for enhanced derivative and tangent line visualization ([cf02467](https://github.com///commit/cf02467ef08e1f933260b49e9e78da8a2673ee7c))
 - add 08_tangent_01.py for derivative and tangent line visualization ([0ce5e21](https://github.com///commit/0ce5e211710c6d3282872af0e75b85e032828143))
@@ -28,8 +33,16 @@
 - add requirements.txt for project dependencies ([cc86c4a](https://github.com///commit/cc86c4aa85c9e7ab73389004806cb41fcd752a21))
 - add pyproject.toml for changelog configuration ([1f3fa36](https://github.com///commit/1f3fa36a19f847e37d4ce35ee48944f9c5230b53))
 
+### Bug Fixes
+
+- enhance softmax function for numerical stability with axis handling ([1529f0a](https://github.com///commit/1529f0a42aadc501052d66d24823435c2871deea))
+- improve chart title concatenation for better readability ([a8a97d5](https://github.com///commit/a8a97d536a184e7edca8db312a279006761a3bd2))
+- update chart title formatting for consistency ([0ce9032](https://github.com///commit/0ce90326e1167e91b8d6d0c4197c20852468f689))
+
 ### Chore
 
+- update pyside6 to 6.10.0 and add tensorflow 2.20.0 to requirements ([cb23e5e](https://github.com///commit/cb23e5ed80866e87d76edae205face6f1acbb3ea))
+- update CHANGELOG.md with recent feature additions and refactoring details ([7b4c82b](https://github.com///commit/7b4c82b412aaaf065e5f5a1e7d5d4e96ca79d6dc))
 - update CHANGELOG.md with recent feature additions and chore tasks ([3c77c97](https://github.com///commit/3c77c97bba98f32174f7fa59edd8677802d84969))
 - add .gitignore to exclude IDE files, virtual environments, and system files ([ce6c960](https://github.com///commit/ce6c9601b9edd5b896bda24d96429f096a57f297))
 - create CHANGELOG.md for version 0.1.0 ([1d95a3d](https://github.com///commit/1d95a3d97d181725c556bf43214acc06fb1d84e8))
@@ -41,5 +54,6 @@
 
 ### Code Refactoring
 
+- unify cross-entropy error functions and enhance input handling for binary and categorical cases ([ade5698](https://github.com///commit/ade5698d33f88917cb0934956c7205729646bac3))
 - rename 07_network_simple.py to 07_network.py for consistency ([ceb72bf](https://github.com///commit/ceb72bf5b08a9707d00615817fd093eac811659c))
 
