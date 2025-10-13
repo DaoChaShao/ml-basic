@@ -3,7 +3,7 @@
 # @Time     :   2025/10/9 17:22
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   11_SGD_mnist.py
+# @File     :   11_SGD_mnist_forward.py
 # @Desc     :   
 
 from numpy import random as np_random, ceil
@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from tensorflow.keras.datasets import mnist
 from time import perf_counter
 
-from utils.network import TwoLayersNN
+from utils.network import Simple2LayersNN
 
 
 def mnist_loader():
@@ -46,7 +46,7 @@ def main() -> None:
     x_train, y_train, x_test, y_test = mnist_loader()
 
     # Set the model
-    model = TwoLayersNN(input_size=x_train.shape[1], hidden_units=64, output_size=y_train.shape[1])
+    model = Simple2LayersNN(input_size=x_train.shape[1], hidden_units=64, output_size=y_train.shape[1])
 
     # Set training parameters
     epochs = 10
