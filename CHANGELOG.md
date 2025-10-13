@@ -1,10 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-09)
+## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-13)
 
 ### Features
 
+- add Full2LayersNN class with forward, loss, gradient descent, accuracy, and backward methods ([9652142](https://github.com///commit/96521423068909b077cba7c542fc1ab914fa7c92))
+- implement ReLU, Leaky ReLU, Sigmoid, Affine, and Softmax with Cross-Entropy classes ([baf3d0e](https://github.com///commit/baf3d0e80135cde45f590d60fc171da669b6b6e4))
+- add UI for training and visualizing MNIST model accuracy ([94e568e](https://github.com///commit/94e568e423fde0db1b8972af1aeff4dbcdf3a94a))
+- add SGD implementation for MNIST dataset with training and evaluation ([6e1005b](https://github.com///commit/6e1005b11fa4c17d0623245a1425f7cf67cf7519))
 - implement two-layer neural network with forward pass, loss calculation, and gradient descent methods ([8ec322e](https://github.com///commit/8ec322e335ff89f28e63720a87fb1b0fc8c8713c))
 - add gradient descent optimization function and refactor gradient calculation methods ([b9201fc](https://github.com///commit/b9201fc93af97a5b25deee727a89f11476266cac))
 - implement MNIST dataset loader and training loop for two-layer neural network ([89d51bd](https://github.com///commit/89d51bdac98ff25fa07f2aa9a29bd3cfc83fc322))
@@ -35,12 +39,15 @@
 
 ### Bug Fixes
 
+- update Leaky ReLU import to use lowercase function name ([412db33](https://github.com///commit/412db33c3823a6e7f21b9294b009905d17a67b9a))
+- update ReLU import to use lowercase function name ([c9b2aea](https://github.com///commit/c9b2aea1ce935b537135a5cf614bf6f5d624a74e))
 - enhance softmax function for numerical stability with axis handling ([1529f0a](https://github.com///commit/1529f0a42aadc501052d66d24823435c2871deea))
 - improve chart title concatenation for better readability ([a8a97d5](https://github.com///commit/a8a97d536a184e7edca8db312a279006761a3bd2))
 - update chart title formatting for consistency ([0ce9032](https://github.com///commit/0ce90326e1167e91b8d6d0c4197c20852468f689))
 
 ### Chore
 
+- update CHANGELOG.md with recent feature additions and bug fixes ([0766f67](https://github.com///commit/0766f6769adeabf29cba8123456997be0c8c36b0))
 - update pyside6 to 6.10.0 and add tensorflow 2.20.0 to requirements ([cb23e5e](https://github.com///commit/cb23e5ed80866e87d76edae205face6f1acbb3ea))
 - update CHANGELOG.md with recent feature additions and refactoring details ([7b4c82b](https://github.com///commit/7b4c82b412aaaf065e5f5a1e7d5d4e96ca79d6dc))
 - update CHANGELOG.md with recent feature additions and chore tasks ([3c77c97](https://github.com///commit/3c77c97bba98f32174f7fa59edd8677802d84969))
@@ -54,6 +61,7 @@
 
 ### Code Refactoring
 
+- rename SGD MNIST script and update model import to Simple2LayersNN ([c431ca3](https://github.com///commit/c431ca3ac1798a9e377f856d655632c90f355eef))
 - unify cross-entropy error functions and enhance input handling for binary and categorical cases ([ade5698](https://github.com///commit/ade5698d33f88917cb0934956c7205729646bac3))
 - rename 07_network_simple.py to 07_network.py for consistency ([ceb72bf](https://github.com///commit/ceb72bf5b08a9707d00615817fd093eac811659c))
 
