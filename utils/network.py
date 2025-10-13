@@ -6,13 +6,11 @@
 # @File     :   network.py
 # @Desc     :
 
-
-from numpy import random as np_random, zeros, ndarray, sum as np_sum
+from collections import OrderedDict
+from numpy import random as np_random, zeros, ndarray, sum as np_sum, argmax
 from typing import Union
 
-from plotly.graph_objs.surface.contours import y
-
-from utils.A import sigmoid, softmax, identity
+from utils.A import sigmoid, softmax, identity, Affine, ReLU, SoftmaxWithLoss
 from utils.D import numerical_gradient
 from utils.J import cross_entropy_error
 
@@ -110,7 +108,7 @@ class SimpleNN(object):
         return cross_entropy_error(y_true, y_pred)
 
 
-class TwoLayersNN(object):
+class Simple2LayersNN(object):
     """ Minimal two-layer neural network for 2-feature, 3-class classification """
 
     def __init__(self, input_size: int, hidden_units: int, output_size: int, scale: float = 0.01):
@@ -165,3 +163,89 @@ class TwoLayersNN(object):
         y_true_labels = y_true.argmax(axis=1)
         y_pred_labels = y_pred.argmax(axis=1)
         return np_sum(y_true_labels == y_pred_labels) / len(y_true_labels)
+
+
+class Full2LayersNN(object):
+    """ Minimal two-layer neural network for 2-feature, 3-class classification """
+
+    def __init__(self, input_size: int, hidden_units: int, output_size: int, scale: float = 0.01):
+        # Initialize weights, small random values and units for 2 input features and 3 output classes
+        self._parameters: dict = {
+            # Initialize weights and biases for the first layer
+            "W1": np_random.randn(input_size, hidden_units) * scale,
+            "b1": zeros((1, hidden_units)),
+            # Initialize weights and biases for the output layer
+            "W2": np_random.randn(hidden_units, output_size) * scale,
+            "b2": zeros((1, output_size))
+        }
+
+        # Initialize layers in an ordered dictionary to maintain the sequence of operations
+        self._layers: OrderedDict = OrderedDict()
+        self._layers["Affine1"] = Affine(self._parameters["W1"], self._parameters["b1"])
+        self._layers["ReLU1"] = ReLU()
+        self._layers["Affine2"] = Affine(self._parameters["W2"], self._parameters["b2"])
+        self._lastLayer = SoftmaxWithLoss()
+
+    def forward(self, X: ndarray) -> ndarray:
+        for layer in self._layers.values():
+            X = layer.forward(X)
+        return X
+
+    def loss(self, X: ndarray, t: ndarray) -> float:
+        """ Compute Mean Squared Error loss
+        :param X : Input data
+        :param t: True labels
+        :return: CEE loss value
+        """
+        y_pred = self.forward(X)
+        return self._lastLayer.forward(y_pred, t)
+
+    def grad_descent(self, X, t):
+        fn = lambda p: self.loss(X, t)
+        grads = {
+            "W1": numerical_gradient(fn, self._parameters["W1"]),
+            "b1": numerical_gradient(fn, self._parameters["b1"]),
+            "W2": numerical_gradient(fn, self._parameters["W2"]),
+            "b2": numerical_gradient(fn, self._parameters["b2"]),
+        }
+        return grads
+
+    def getter(self):
+        return self._parameters
+
+    def accuracy(self, X: ndarray, target: ndarray) -> float:
+        """ Compute accuracy of predictions
+        :param X: Input data
+        :param target: True labels
+        :return: Accuracy value
+        """
+        y_prob = self.forward(X)
+        y_pred = argmax(y_prob, axis=1)
+
+        if target.ndim != 1:
+            target = argmax(target, axis=1)
+
+        return np_sum(y_pred == target) / X.shape[0]
+
+    def backward(self, X: ndarray, target: ndarray, dout: float = 1.0):
+        """ Backward pass through the network to compute gradients
+        :param X: Input data
+        :param target: True labels
+        :param dout: Gradient from the next layer, default is 1.0
+        :return: Gradients with respect to weights and biases
+        """
+        # Compute loss to set up for backward pass
+        self.loss(X, target)
+
+        # Start backward pass from the last layer
+        dy = self._lastLayer.backward(dout)
+        # Backpropagate through each layer in reverse order
+        for layer in reversed(list(self._layers.values())):
+            dy = layer.backward(dy)
+
+        # Collect gradients from each layer
+        grads = {
+            "W1": self._layers["Affine1"]._dW, "b1": self._layers["Affine1"]._db,
+            "W2": self._layers["Affine2"]._dW, "b2": self._layers["Affine2"]._db
+        }
+        return grads
