@@ -7,7 +7,7 @@
 # @Desc     :   
 
 from random import uniform
-from utils.A import leakyReLU
+from utils.A import leaky_relu
 from utils.helper import generate_1d_array
 
 
@@ -20,7 +20,7 @@ def main() -> None:
     # Apply Leaky ReLU activation function
     alpha = uniform(0, 0.03)
     print(f"Leaky ReLU alpha: {alpha:.4f}")
-    values = leakyReLU(arr, alpha=0.01)
+    values = leaky_relu(arr, alpha=0.01)
     print(f"Leaky ReLU Activated Array:\n{values}")
 
 
