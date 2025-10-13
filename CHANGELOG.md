@@ -47,7 +47,7 @@
 
 ### Chore
 
-- update CHANGELOG.md with recent feature additions and bug fixes ([0766f67](https://github.com///commit/0766f6769adeabf29cba8123456997be0c8c36b0))
+- update CHANGELOG.md with recent feature additions and bug fixes ([9841ff1](https://github.com///commit/9841ff1a97b0d6d227e0f19826434b0d398aa17d))
 - update pyside6 to 6.10.0 and add tensorflow 2.20.0 to requirements ([cb23e5e](https://github.com///commit/cb23e5ed80866e87d76edae205face6f1acbb3ea))
 - update CHANGELOG.md with recent feature additions and refactoring details ([7b4c82b](https://github.com///commit/7b4c82b412aaaf065e5f5a1e7d5d4e96ca79d6dc))
 - update CHANGELOG.md with recent feature additions and chore tasks ([3c77c97](https://github.com///commit/3c77c97bba98f32174f7fa59edd8677802d84969))
@@ -61,6 +61,7 @@
 
 ### Code Refactoring
 
+- rename SGD MNIST UI script to reflect PySide6 usage ([fc14f4f](https://github.com///commit/fc14f4f8d950ed563cad90886c5c3997cdd69492))
 - rename SGD MNIST script and update model import to Simple2LayersNN ([c431ca3](https://github.com///commit/c431ca3ac1798a9e377f856d655632c90f355eef))
 - unify cross-entropy error functions and enhance input handling for binary and categorical cases ([ade5698](https://github.com///commit/ade5698d33f88917cb0934956c7205729646bac3))
 - rename 07_network_simple.py to 07_network.py for consistency ([ceb72bf](https://github.com///commit/ceb72bf5b08a9707d00615817fd093eac811659c))
