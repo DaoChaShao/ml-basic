@@ -3,7 +3,7 @@
 # @Time     :   2025/10/13 14:56
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   11_SGD_mnist_ui.py
+# @File     :   11_SGD_mnist_pyside6.py
 # @Desc     :   
 
 from PySide6.QtCore import Qt
