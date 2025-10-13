@@ -11,7 +11,11 @@ from numpy import (ndarray, array,
                    tanh as np_tanh,
                    maximum,
                    sum as np_sum,
-                   max as np_max)
+                   max as np_max,
+                   log as np_log,
+                   arange, )
+
+from utils.J import cross_entropy_error
 
 
 def step(x: float) -> int:
@@ -56,7 +60,7 @@ def tanh(x: ndarray) -> ndarray:
     return np_tanh(x)
 
 
-def ReLU(x: ndarray) -> ndarray:
+def relu(x: ndarray) -> ndarray:
     """ Rectified Linear Unit (ReLU) Activation Function with array or vector input
     - It is defined as f(x) = max(0, x), meaning it outputs the input directly if it is positive; otherwise, it outputs zero.
     - It is widely used in hidden layers of deep neural networks due to its simplicity and effectiveness.
@@ -67,7 +71,7 @@ def ReLU(x: ndarray) -> ndarray:
     return maximum(0, x)
 
 
-def leakyReLU(x: ndarray, alpha: float = 0.01) -> ndarray:
+def leaky_relu(x: ndarray, alpha: float = 0.01) -> ndarray:
     """ Leaky Rectified Linear Unit (Leaky ReLU) Activation Function with array or vector input
     - It is a variant of the ReLU function that allows a small, non-zero gradient when the input is negative.
     - It is defined as f(x) = x if x > 0 else alpha * x, where alpha is a small constant (e.g., 0.01).
@@ -125,3 +129,134 @@ def identity(x: ndarray) -> ndarray:
     :return: identity value
     """
     return x
+
+
+class ReLU(object):
+    """ ReLU Activation Function Class with forward and backward methods for use in neural networks """
+
+    def __init__(self):
+        self._mask: None | ndarray = None
+
+    def forward(self, X: ndarray) -> ndarray:
+        """ Forward pass for ReLU activation function
+        :param X: input data
+        :return: activated output
+        """
+        self._mask = (X <= 0).astype(bool)
+        out = X.copy()
+        out[self._mask] = 0
+        return out
+
+    def backward(self, derivative_of_output: ndarray) -> ndarray:
+        """ Backward pass for ReLU activation function
+        :param derivative_of_output: gradient from the next layer, which can be named dL/dout also.
+        :return: gradient with respect to the input of ReLU
+        """
+        dx = derivative_of_output.copy()
+        dx[self._mask] = 0
+        return dx
+
+
+class Sigmoid(object):
+    """ Sigmoid Activation Function Class with forward and backward methods for use in neural networks """
+
+    def __init__(self):
+        self._out = None
+
+    def forward(self, X: ndarray) -> ndarray:
+        """ Forward pass for Sigmoid activation function
+        :param X: input data
+        :return: activated output
+        """
+        self._out = 1 / (1 + exp(-X))
+        return self._out
+
+    def backward(self, derivative_of_output: ndarray) -> ndarray:
+        """ Backward pass for Sigmoid activation function
+        :param derivative_of_output: gradient from the next layer, which can be named dL/dout also.
+        :return: gradient with respect to the input of Sigmoid
+        """
+        dx = derivative_of_output * (1.0 - self._out) * self._out
+        return dx
+
+
+class Affine(object):
+    """ Affine (Fully Connected) Layer Class with forward and backward methods for use in neural networks """
+
+    def __init__(self, W: ndarray, b: ndarray):
+        self._W = W
+        self._b = b
+
+        self._X = None
+        self._X_shape = None
+
+        self._dW = None
+        self._db = None
+
+    def forward(self, X: ndarray) -> ndarray:
+        """ Forward pass for Affine layer
+        :param X: input data
+        :return: output after affine transformation
+        """
+        self._X_shape = X.shape
+        # Flatten input from 3d tensor to 2d array if necessary
+        self._X = X.reshape(self._X_shape[0], -1)
+        out = X.dot(self._W) + self._b
+        return out
+
+    def backward(self, derivative_of_output: ndarray) -> ndarray:
+        """ Backward pass for Affine layer
+        :param derivative_of_output: gradient from the next layer, which can be named dL/dout also.
+        :return: gradients with respect to input, weights, and biases
+        """
+        dX = derivative_of_output.dot(self._W.T)
+        # Reshape dx to the original input shape
+        dX = dX.reshape(*self._X_shape)
+
+        self._dW = self._X.T.dot(derivative_of_output)
+        self._db = np_sum(derivative_of_output, axis=0)
+
+        return dX
+
+
+class SoftmaxWithLoss(object):
+    """ Softmax Activation Function combined with Cross-Entropy Loss Class
+    - This class combines the softmax activation function and the cross-entropy loss function into a single layer.
+    - It is commonly used in the output layer of neural networks for multi-class classification tasks.
+    - The forward method computes the softmax probabilities and the cross-entropy loss.
+    - The backward method computes the gradient of the loss with respect to the input scores.
+    """
+
+    def __init__(self):
+        self._loss = None
+        # Predicted probabilities after softmax
+        self._pred = None
+        # True labels (one-hot encoded)
+        self._target = None
+
+    def forward(self, X: ndarray, y_true: ndarray) -> float:
+        """ Forward pass for Softmax with Cross-Entropy Loss
+        :param X: input scores (logits)
+        :param y_true: true labels (one-hot encoded)
+        :return: cross-entropy loss
+        """
+        self._target = y_true
+        self._pred = softmax(X)
+        self._loss = cross_entropy_error(self._pred, self._target)
+        return self._loss
+
+    def backward(self, derivative_of_output: float = 1.0) -> ndarray:
+        """ Backward pass for Softmax with Cross-Entropy Loss
+        :param derivative_of_output: gradient from the next layer, which can be named dL/dout also. Default is 1.
+        :return: gradient with respect to the input scores
+        """
+        batch_size = self._target.shape[0]
+        if self._target.size == self._pred.size:
+            # one-hot label
+            dx = (self._pred - self._target) / batch_size
+        else:
+            # class indices
+            dx = self._pred.copy()
+            dx[arange(batch_size), self._target] -= 1
+            dx = dx / batch_size
+        return dx
