@@ -5,6 +5,7 @@
 
 ### Features
 
+- add various optimization algorithms including SGD, Momentum, AdaGrad, and RMSProp ([0a9c901](https://github.com///commit/0a9c901c81740ca69caeef19b8859e4227598144))
 - add Full2LayersNN class with forward, loss, gradient descent, accuracy, and backward methods ([9652142](https://github.com///commit/96521423068909b077cba7c542fc1ab914fa7c92))
 - implement ReLU, Leaky ReLU, Sigmoid, Affine, and Softmax with Cross-Entropy classes ([baf3d0e](https://github.com///commit/baf3d0e80135cde45f590d60fc171da669b6b6e4))
 - add UI for training and visualizing MNIST model accuracy ([94e568e](https://github.com///commit/94e568e423fde0db1b8972af1aeff4dbcdf3a94a))
@@ -47,7 +48,7 @@
 
 ### Chore
 
-- update CHANGELOG.md with recent feature additions and bug fixes ([9841ff1](https://github.com///commit/9841ff1a97b0d6d227e0f19826434b0d398aa17d))
+- update CHANGELOG.md with recent feature additions and bug fixes ([55007b4](https://github.com///commit/55007b485f7567ac81d62c752d7ed5dd87072278))
 - update pyside6 to 6.10.0 and add tensorflow 2.20.0 to requirements ([cb23e5e](https://github.com///commit/cb23e5ed80866e87d76edae205face6f1acbb3ea))
 - update CHANGELOG.md with recent feature additions and refactoring details ([7b4c82b](https://github.com///commit/7b4c82b412aaaf065e5f5a1e7d5d4e96ca79d6dc))
 - update CHANGELOG.md with recent feature additions and chore tasks ([3c77c97](https://github.com///commit/3c77c97bba98f32174f7fa59edd8677802d84969))
