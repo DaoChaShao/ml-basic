@@ -6,7 +6,7 @@
 # @File     :   04_relu.py
 # @Desc     :   
 
-from utils.A import ReLU
+from utils.A import relu
 from utils.helper import generate_1d_array
 
 
@@ -17,7 +17,7 @@ def main() -> None:
     print(f"Input Array:\n{arr}")
 
     # Apply ReLU activation function
-    values = ReLU(arr)
+    values = relu(arr)
     print(f"ReLU Activated Array:\n{values}")
 
 
