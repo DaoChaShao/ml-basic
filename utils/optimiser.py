@@ -9,7 +9,7 @@
 from numpy import zeros_like, sqrt
 
 
-class SGD(object):
+class SGD:
     """ Stochastic Gradient Descent (SGD) Optimizer
     - Performs parameter updates using the formula: param -= learning_rate * gradient
     - Suitable for large datasets and online learning scenarios
@@ -27,7 +27,7 @@ class SGD(object):
             params[key] -= self._learning_rate * grads[key]
 
 
-class Momentum(object):
+class Momentum:
     """ Momentum Optimizer
     - Accelerates SGD by adding a momentum term, which is historical gradients, to the parameter updates
     - Helps to smooth out updates and can lead to faster convergence
@@ -51,7 +51,7 @@ class Momentum(object):
             params[key] += self._velocity[key]
 
 
-class AdaGrad(object):
+class AdaGrad:
     """ AdaGrad Optimizer
     - Adapts the learning rate for each parameter based on the historical sum of squared gradients
     - Helps to perform larger updates for infrequent parameters and smaller updates for frequent parameters
@@ -77,7 +77,7 @@ class AdaGrad(object):
             params[key] -= self._learning_rate * grads[key] / (sqrt(self._h[key] + self._epsilon))
 
 
-class RMSProp(object):
+class RMSProp:
     """ RMSProp Optimizer
     - Adapts the learning rate for each parameter based on a moving average of squared gradients
     - Helps to maintain a more stable learning rate and can lead to better convergence
@@ -102,3 +102,46 @@ class RMSProp(object):
             self._h[key] *= self._decay_rate
             self._h[key] += (1 - self._decay_rate) * grads[key] * grads[key]
             params[key] -= self._learning_rate * grads[key] / (sqrt(self._h[key]) + self._epsilon)
+
+
+class Adam:
+    """ Adam Optimizer
+    - Combines the benefits of Momentum and RMSProp optimizers
+    - Maintains moving averages of both the gradients and the squared gradients
+    - Uses bias-corrected estimates to improve convergence
+    """
+
+    def __init__(self, alpha: float = 0.001, beta1: float = 0.9, beta2: float = 0.999, epsilon: float = 1e-7):
+        self._learning_rate = alpha
+        self._beta_momentum = beta1
+        self._beta_rmsProp = beta2
+        self._epsilon = epsilon
+
+        # First moment vector (momentum)
+        self._v = None
+        # Second moment vector (RMSProp)
+        self._h = None
+        # Iteration counter
+        self._iter = 0
+
+    def update(self, params: dict, grads: dict):
+        """ Update parameters using Adam optimizer
+        :param params: dictionary of model parameters (weights and biases)
+        :param grads: dictionary of gradients for each parameter
+        """
+        if self._v is None:
+            self._v = {key: zeros_like(val) for key, val in params.items()}
+            self._h = {key: zeros_like(val) for key, val in params.items()}
+
+        self._iter += 1
+        mom_correction = 1.0 - self._beta_momentum ** self._iter
+        rms_correction = 1.0 - self._beta_rmsProp ** self._iter
+        lr_t = self._learning_rate * (sqrt(rms_correction) / mom_correction)
+
+        for key in params.keys():
+            # Update biased first moment estimate
+            self._v[key] = self._beta_momentum * self._v[key] + (1 - self._beta_momentum) * grads[key]
+            # Update biased second moment estimate
+            self._h[key] = self._beta_rmsProp * self._h[key] + (1 - self._beta_rmsProp) * grads[key] * grads[key]
+            # Update parameters
+            params[key] -= lr_t * self._v[key] / (sqrt(self._h[key]) + self._epsilon)
