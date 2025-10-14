@@ -1,10 +1,12 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-13)
+## [0.1.0](https://github.com///compare/6a96f062264bf17ac9cf5052e59c075306d41709...0.1.0) (2025-10-14)
 
 ### Features
 
+- add Adam optimizer implementation to optimiser.py ([e04e3e9](https://github.com///commit/e04e3e92fc0a7957a866788b8baacae5cf6424e8))
+- implement MNIST training interface with multiple optimizers using PySide6 ([f3fc8ab](https://github.com///commit/f3fc8abf4518e2f25e3917515ebf89d1b67197a1))
 - add various optimization algorithms including SGD, Momentum, AdaGrad, and RMSProp ([0a9c901](https://github.com///commit/0a9c901c81740ca69caeef19b8859e4227598144))
 - add Full2LayersNN class with forward, loss, gradient descent, accuracy, and backward methods ([9652142](https://github.com///commit/96521423068909b077cba7c542fc1ab914fa7c92))
 - implement ReLU, Leaky ReLU, Sigmoid, Affine, and Softmax with Cross-Entropy classes ([baf3d0e](https://github.com///commit/baf3d0e80135cde45f590d60fc171da669b6b6e4))
@@ -48,6 +50,7 @@
 
 ### Chore
 
+- update CHANGELOG.md with recent feature additions ([52141c1](https://github.com///commit/52141c1b6071855ab469333613147c5398509e77))
 - update CHANGELOG.md with recent feature additions and bug fixes ([55007b4](https://github.com///commit/55007b485f7567ac81d62c752d7ed5dd87072278))
 - update pyside6 to 6.10.0 and add tensorflow 2.20.0 to requirements ([cb23e5e](https://github.com///commit/cb23e5ed80866e87d76edae205face6f1acbb3ea))
 - update CHANGELOG.md with recent feature additions and refactoring details ([7b4c82b](https://github.com///commit/7b4c82b412aaaf065e5f5a1e7d5d4e96ca79d6dc))
